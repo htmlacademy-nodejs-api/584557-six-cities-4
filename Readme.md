@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
-* Студент: [Igor Zorin](https://up.htmlacademy.ru/nodejs-api/4/user/584557).
-* Наставник: `Неизвестно`.
+- Студент: [Igor Zorin](https://up.htmlacademy.ru/nodejs-api/4/user/584557).
+- Наставник: [Михаил Кислый](https://htmlacademy.ru/profile/id1118577).
 
 ---
 
