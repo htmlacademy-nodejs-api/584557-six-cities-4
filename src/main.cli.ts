@@ -8,6 +8,9 @@ import GenerateCommand from './core/cli-command/generate-command.js';
 
 const myManager = new CLIApplication();
 myManager.registerCommands([
-  new HelpCommand, new VersionCommand, new ImportCommand, new GenerateCommand()
+  new HelpCommand,
+  new VersionCommand,
+  new ImportCommand,
+  new GenerateCommand()
 ]);
 myManager.processCommand(process.argv);
