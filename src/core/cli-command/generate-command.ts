@@ -12,9 +12,9 @@ export default class GenerateCommand implements CliCommandInterface {
     const offerCount = Number.parseInt(count, 10);
 
     try {
-      this.initialData = await got.get(url).json();
+      this.initialData = await got.get<MockData>(url).json();
     } catch {
-      console.log(`Can't fetch data from ${url}.`);
+      console.warn(`Can't fetch data from ${url}.`);
       return;
     }
 

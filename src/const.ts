@@ -24,3 +24,5 @@ export const CITIES = {
     coords: { latitude: 51.225402, longitude: 6.776314 },
   },
 };
+
+export const CHUNK_SIZE = 16384; // 16KB
