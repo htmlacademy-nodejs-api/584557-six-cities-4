@@ -1,7 +1,10 @@
 import { Offer } from '../../types/offer.type.js';
-import { City } from '../../types/city.type.js';
-import { HouseType } from '../../types/house-type.type.js';
-import { Feature } from '../../types/feature.type.js';
+import { User } from '../../types/user.type.js';
+import { CityName } from '../../types/city.type.js';
+import { HouseType } from '../../types/house-type.enum.js';
+import { Feature } from '../../types/feature.enum.js';
+import { UserType } from '../../types/user-type.enum.js';
+import { CITIES } from '../../const.js';
 
 export function createOffer(offerData: string): Offer {
   const [
@@ -19,16 +22,29 @@ export function createOffer(offerData: string): Offer {
     guests,
     price,
     features,
-    author,
-    coments,
+    avatar,
+    userName,
+    mail,
+    userType,
+    commentCount,
     coords
   ] = offerData.replace('\n', '').split('\t');
+
+
+  const author: User = {
+    name: userName,
+    mail,
+    avatar,
+    type: (userType as UserType)
+  };
+
+  const cityData = CITIES[(city.toLocaleLowerCase() as CityName)];
 
   return {
     title,
     description,
     postDate: new Date(createdDate),
-    city: (city as City),
+    city: cityData,
     preview,
     photos: photos.split(';'),
     premium: Boolean(premium),
@@ -40,10 +56,10 @@ export function createOffer(offerData: string): Offer {
     price: Number.parseInt(price, 10),
     author,
     features: (features.split(';') as Feature[]),
-    coments: Number.parseInt(coments, 10),
+    commentCount: Number.parseInt(commentCount, 10),
     coords: {
-      lng: Number.parseFloat(coords.split(';')[0]),
-      lat: Number.parseFloat(coords.split(';')[1])
+      latitude: Number.parseFloat(coords.split(';')[0]),
+      longitude: Number.parseFloat(coords.split(';')[1])
     }
   } as Offer;
 }

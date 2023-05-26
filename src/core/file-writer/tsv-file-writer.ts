@@ -3,8 +3,6 @@ import { WriteStream } from 'node:fs';
 import { createWriteStream } from 'node:fs';
 import { steamCommonOptions } from '../../common.js';
 
-const CHUNK_SIZE = 2 ** 16; // 64KB
-
 export default class TSVFileWriter implements FileWriterInterface {
   private stream: WriteStream;
 
