@@ -65,6 +65,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/userToken'
 
+        "401":
+          description: Пользователь не авторизован.
+
     get:
       tags:
         - users
@@ -73,7 +76,6 @@ paths:
       parameters:
         - name: token
           $ref: '#/components/parameters/token'
-          required: true
 
       responses:
         "200":
@@ -83,7 +85,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
 
-        "400":
+        "401":
           description: Пользователь не авторизован.
 
   /users/logout:
@@ -95,7 +97,6 @@ paths:
       parameters:
         - name: token
           $ref: '#/components/parameters/token'
-          required: true
 
       responses:
         "200":
@@ -104,80 +105,20 @@ paths:
         "400":
           description: Произошла ошибка
 
-  /users/favorites:
+  /offers:
     get:
       tags:
-        - users
         - offers
-      summary: Получение предложений, добавленных в избранное
-      description: Сервис возвращает все предложения, добавленные в избранное.
-      parameters:
-        - name: token
-          $ref: '#/components/parameters/token'
-          required: true
-
-      responses:
-        "200":
-          description: Предложения найдены
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/offers'
-
-        "400":
-          description: Пользователь не авторизован.
-
-        "404":
-          description: Предложения не найдены
-
-    patch:
-      tags:
-        - offers
-      summary: Удаление/Добавление предложения из/в спискок избранных предложений.
-      parameters:
-         - name: id
-           $ref: '#/components/parameters/id'
-         - name: token
-           $ref: '#/components/parameters/token'
-
-      requestBody:
-          description: Информация для удаления/добавления предложения из/в спискок избранных предложений.
-          content:
-            application/json:
-              schema:
-                type: object
-                $ref: '#/components/schemas/offer'
-
-      responses:
-        "200":
-          description: Объявление удалено/добавлено из/в список избранных предложений
-
-        "404":
-          description: Объявление не найдено.
-
-        "409":
-          $ref: '#/components/responses/conflict'
-
-  /offers:
-    post:
-      tags:
-        - users
       summary: Запрос объявлений
       description: По умолчанию сервис возвращает не больше 60 предложений по аренде. Клиент может запросить больше предложений, указав нужное количество в параметре запроса. Сервис всегда возвращает отсортированный список предложений по дате публикации (по убыванию)
       parameters:
-        - name: token
-          $ref: '#/components/parameters/token'
-
-      requestBody:
-        description: Информация для изменения количества запрашиваемых объявлений.
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                count:
-                  type: integer
-                  example: 77
+        - name: count
+          description: Количество запрашиваемых объявлений
+          in: header
+          schema:
+            type: integer
+            example: 90
+          required: false
 
       responses:
         '200':
@@ -187,7 +128,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/offers'
 
-    put:
+    post:
       tags:
         - offers
       summary:  Создание нового предложения.
@@ -250,11 +191,7 @@ paths:
 
       responses:
         "200":
-          description: Объявление удалено. Возвращает информацию об объявлении
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/offer'
+          description: Объявление удалено.
 
         "404":
           description: Объявление не найдено.
@@ -290,10 +227,68 @@ paths:
                 type: object
                 $ref: '#/components/schemas/offer'
 
+        "404":
+          description: Объявление не найдено.
+
         "409":
           $ref: '#/components/responses/conflict'
 
-  /offers/{id}/comments:
+  /favorites:
+    get:
+      tags:
+        - users
+      summary: Получение предложений, добавленных в избранное
+      description: Сервис возвращает все предложения, добавленные в избранное.
+      parameters:
+        - name: token
+          $ref: '#/components/parameters/token'
+
+      responses:
+        "200":
+          description: Предложения найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offers'
+
+        "401":
+          description: Пользователь не авторизован.
+
+        "404":
+          description: Предложения не найдены
+
+    patch:
+      tags:
+        - users
+      summary: Удаление/Добавление предложения из/в спискок избранных предложений.
+      parameters:
+         - name: token
+           $ref: '#/components/parameters/token'
+
+      requestBody:
+          description: id объявления для удаления/добавления предложения из/в спискок избранных предложений.
+          content:
+            application/json:
+              schema:
+                type: 'object'
+                properties:
+                  id:
+                    type: string
+                required:
+                  - "id"
+
+
+      responses:
+        "200":
+          description: Объявление удалено/добавлено из/в список избранных предложений
+
+        "404":
+          description: Объявление не найдено.
+
+        "409":
+          $ref: '#/components/responses/conflict'
+
+  /comments/{id}:
     get:
       tags:
         - comments
@@ -312,9 +307,9 @@ paths:
                 $ref: '#/components/schemas/comments'
 
         "404":
-          description: Комментарии не найдены.
+          description: Объявление не найдено.
 
-    put:
+    post:
       tags:
         - comments
       summary: Добавление комментария к определённому предложению по аренде.
@@ -347,15 +342,25 @@ paths:
         "409":
           $ref: '#/components/responses/conflict'
 
-  /premium/{city}:
+  /premium/{cityName}:
     get:
       tags:
         - offers
       summary: Получение списка премиальных предложений для определённого города.
       description: Сервис предоставляет ресурс для получения списка премиальных предложений для определённого города. Премиальное предложение — предложение с флагом «Premium». Сервис возвращает не больше 3 предложений с флагом «Premium». Список возвращаемых предложений отсортирован по дате публикации (по убыванию).
       parameters:
-        - name: id
-          $ref: '#/components/parameters/id'
+        - name: cityName
+          in: path
+          schema:
+            type: string
+            enum:
+              - paris
+              - cologne
+              - brussels
+              - amsterdam
+              - hamburg
+              - dusseldorf
+          required: true
 
       responses:
         "200":
@@ -390,8 +395,9 @@ components:
       schema:
         type: string
         example: daFDAWFAWfaWfFw232jJJ
+
     id:
-      name: id
+      name: offerId
       in: path
       schema:
         type: string
@@ -444,6 +450,9 @@ components:
 
         type:
           type: string
+          enum:
+            - common
+            - pro
           example: pro
 
     loginUser:
@@ -484,6 +493,13 @@ components:
       properties:
         name:
           type: string
+          enum:
+            - paris
+            - cologne
+            - brussels
+            - amsterdam
+            - hamburg
+            - dusseldorf
           example: Paris
 
         coords:
@@ -493,6 +509,9 @@ components:
     offer:
       type: object
       properties:
+        id:
+          type: string
+
         title:
           type: string
           example: this is title
@@ -561,6 +580,8 @@ components:
 
         features:
           type: array
+          items:
+            type: string
           enum:
             - Breakfast
             - Air conditioning
@@ -569,8 +590,6 @@ components:
             - Washer
             - Towels
             - Fridge
-          items:
-            type: string
           example: [
             Breakfast,
             Washer,
@@ -612,6 +631,7 @@ components:
 
         user:
           type: string
+          description: id юзера
 
     comments:
       type: array
