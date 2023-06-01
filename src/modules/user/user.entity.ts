@@ -1,7 +1,7 @@
 import { UserType } from '../../types/user-type.enum.js';
 import { User } from '../../types/user.type.js';
 import typegoose, { getModelForClass, defaultClasses } from '@typegoose/typegoose';
-import { MAX_USER_NAME_LENGTH, MIN_USER_NAME_LENGTH } from '../../const.js';
+import { EMAIL_REGEX, MAX_USER_NAME_LENGTH, MIN_USER_NAME_LENGTH } from '../../const.js';
 import { DEFAULT_AVATAR_URL } from '../../const.js';
 import { createSHA256 } from '../../core/helpers/common.js';
 
@@ -25,7 +25,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     required: true,
     unique: true,
-    match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Email is incorrect'],
+    match: [EMAIL_REGEX, 'Email is incorrect'],
   })
   public mail: string;
 
