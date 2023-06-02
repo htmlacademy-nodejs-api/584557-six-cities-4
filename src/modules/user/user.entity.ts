@@ -1,6 +1,7 @@
+import { OfferEntity } from './../offer/offer.entity.js';
 import { UserType } from '../../types/user-type.enum.js';
 import { User } from '../../types/user.type.js';
-import typegoose, { getModelForClass, defaultClasses } from '@typegoose/typegoose';
+import typegoose, { getModelForClass, defaultClasses, Ref } from '@typegoose/typegoose';
 import { EMAIL_REGEX, MAX_USER_NAME_LENGTH, MIN_USER_NAME_LENGTH } from '../../const.js';
 import { DEFAULT_AVATAR_URL } from '../../const.js';
 import { createSHA256 } from '../../core/helpers/common.js';
@@ -45,6 +46,11 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     required: true
   })
   public type: UserType;
+
+  @prop({
+    ref: OfferEntity
+  })
+  public favorites!: Ref<OfferEntity>[];
 
   constructor(userData: User) {
     super();

@@ -8,7 +8,7 @@ import { LoggerInterface } from '../logger/logger.interface.js';
 import ConsoleLoggerService from '../logger/console.service.js';
 import UserService from '../../modules/user/user.setvice.js';
 import { UserModel } from '../../modules/user/user.entity.js';
-import OfferService from '../../modules/offer/offer-service.js';
+import OfferService from '../../modules/offer/offer.service.js';
 import { OfferModel } from '../../modules/offer/offer.entity.js';
 import MongoClientService from '../database-client/mongo-client.setvice.js';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from '../../const.js';
