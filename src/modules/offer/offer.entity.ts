@@ -102,11 +102,16 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public rating!: number;
 
+   @prop({
+     required: true,
+   })
+  public ratingCount = 0;
+
   @prop({
     required: true,
     enum: HouseType
   })
-  public houseType!: HouseType;
+   public houseType!: HouseType;
 
   @prop({
     required: true,
@@ -134,7 +139,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    ref: UserEntity,
+    ref: 'UserEntity',
   })
   public userId!: Ref<UserEntity>;
 
