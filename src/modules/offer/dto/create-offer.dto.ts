@@ -1,4 +1,4 @@
-import { City } from '../../../types/city.type.js';
+import { CityName } from './../../../types/city.type.js';
 import { Coords } from '../../../types/coords.type.js';
 import { Feature } from '../../../types/feature.enum.js';
 import { HouseType } from '../../../types/house-type.enum.js';
@@ -6,8 +6,8 @@ import { HouseType } from '../../../types/house-type.enum.js';
 export default class CreateOfferDto {
   public title!: string;
   public description!: string;
-  public postDate!: Date;
-  public city!: City;
+  public postDate!: string;
+  public cityName!: CityName;
   public preview!: string;
   public photos!: string[];
   public premium!: boolean;

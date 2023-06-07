@@ -35,12 +35,16 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const guests = generateRandomValue(MIN_GUESTS, MAX_GUESTS).toString();
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE).toString();
     const features = getRandomItems<string>(this.mockData.features).join(';');
-    const author = getRandomItem<string>(this.mockData.authors);
+    const avatar = getRandomItem<string>(this.mockData.authors);
+    const userName = getRandomItem<string>(this.mockData.names);
+    const mail = getRandomItem<string>(this.mockData.mails);
+    const userType = getRandomItem<string>(this.mockData.userTypes);
     const coments = generateRandomValue(MIN_COMMENTS_COUNT, MAX_COMMENTS_COUNT).toString();
     const coords = getRandomItem<string>(this.mockData.coords);
+    console.log(11111111,coords);
 
     return [
-      title, description, createdDate, city, preview, photos, premium, favorite, rating, houseType, roomNumber, guests, price, features, author, coments, coords
+      title, description, createdDate, city, preview, photos, premium, favorite, rating, houseType, roomNumber, guests, price, features, avatar, userName, mail, userType, coments, coords
     ].join('\t');
   }
 }
