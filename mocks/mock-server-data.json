@@ -86,6 +86,19 @@
       "https://user8.ru",
       "https://user9.ruт"
     ],
+    "names": [
+      "Igor Igor",
+      "Fedya Petya",
+      "Igor Petya",
+      "Fedya Igor"
+    ],
+    "mails": [
+      "test@user.ru"
+    ],
+    "userTypes": [
+      "pro",
+      "common"
+    ],
     "coords": [
       "48.85661;2.351499",
       "50.938361;6.959974",

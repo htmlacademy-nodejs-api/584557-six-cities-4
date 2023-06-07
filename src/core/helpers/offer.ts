@@ -30,7 +30,6 @@ export function createOffer(offerData: string): Offer {
     coords
   ] = offerData.replace('\n', '').split('\t');
 
-
   const author: User = {
     name: userName,
     mail,

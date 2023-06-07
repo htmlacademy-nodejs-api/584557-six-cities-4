@@ -8,7 +8,6 @@ import {
   MAX_OFFER_TITLE_LENGTH,
   MIN_OFFER_DESCRIPTION_LENGTH,
   MIN_OFFER_TITLE_LENGTH,
-  OFFER_PHOTOS_QUANTITY
 } from '../../const.js';
 import { UserEntity } from '../user/user.entity.js';
 
@@ -18,12 +17,12 @@ class Coords implements TCoords {
   @prop({
     required: true
   })
-    latitude!: number;
+  public latitude!: number;
 
   @prop({
     required: true
   })
-    longitude!: number;
+  public longitude!: number;
 }
 
 class City implements TCity {
@@ -65,7 +64,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true
   })
-  public postDate!: Date;
+  public postDate!: string;
 
   @prop({
     required: true
@@ -79,11 +78,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     type: [String],
-    required: true,
-    validate: {
-      validator: (photos: Array<string>) => photos.length === OFFER_PHOTOS_QUANTITY,
-      message: `photos quantity must be equal ${OFFER_PHOTOS_QUANTITY}!`
-    }
+    required: true
   })
   public photos!: string[];
 
@@ -102,16 +97,14 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public rating!: number;
 
-   @prop({
-     required: true,
-   })
+  @prop()
   public ratingCount = 0;
 
   @prop({
     required: true,
     enum: HouseType
   })
-   public houseType!: HouseType;
+  public houseType!: HouseType;
 
   @prop({
     required: true,

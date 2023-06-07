@@ -28,14 +28,14 @@ export default class OfferService implements OfferServiceInterface {
     return this.offerModel
       .find({}, {}, { limit: DEFAULT_OFFER_COUNT })
       .sort({createdAt: SortType.Down})
-      .populate('userId')
+      .populate(['userId', 'coords', 'city'])
       .exec();
   }
 
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
-      .populate('userId')
+      .populate(['userId', 'coords', 'city'])
       .exec();
   }
 
@@ -59,7 +59,7 @@ export default class OfferService implements OfferServiceInterface {
 
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, { new: true })
-      .populate('userId')
+      .populate(['userId', 'coords', 'city'])
       .exec();
   }
 
@@ -73,7 +73,7 @@ export default class OfferService implements OfferServiceInterface {
     return this.offerModel
       .find({ city: { cityName }, premium: true }, {}, { limit: PREMIUM_OFFER_BY_CITY_LIMIT })
       .sort({createdAt: SortType.Down})
-      .populate('userId')
+      .populate(['userId', 'coords', 'city'])
       .exec();
   }
 
