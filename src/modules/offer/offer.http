@@ -10,7 +10,7 @@ POST http://localhost:3000/offers HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "test ",
+  "title": "t",
   "description": "testtesttesttesttest testtesttest testtesttest ",
   "postDate": "2023-06-06T09:50:49.728Z",
   "city": {
@@ -29,8 +29,8 @@ Content-Type: application/json
     "https://via.placeholder.com/260x200?text=5",
     "https://via.placeholder.com/260x200?text=6"
   ],
-  "premium": "true",
-  "favorite": "true",
+  "premium": true,
+  "favorite": true,
   "rating": "2.2",
   "houseType": "house",
   "roomNumber": "3",
@@ -44,5 +44,37 @@ Content-Type: application/json
     "longitude": "0.312"
   }
 }
+
+###
+
+## Объявление по идентификатору
+GET http://localhost:3000/offers/647f01798b40347a35ceee2a HTTP/1.1
+
+###
+
+## Обновить объявление по идентификатору
+PATCH  http://localhost:3000/offers/647f01798b40347a35ceee5a HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "1",
+  "description": "Проверка обновления",
+  "price": 1100
+}
+
+###
+
+## Удалить объявление по идентификатору
+DELETE  http://localhost:3000/offers/647f02064ddfc5b06a345451 HTTP/1.1
+
+###
+
+## Список комментариев к объявлению
+GET http://localhost:3000/offers/647f01798b40347a35ceee2a/comments HTTP/1.1
+
+###
+
+## Список премиум предложений по городу
+GET http://localhost:3000/offers/premium/dusseldorf HTTP/1.1
 
 ###
