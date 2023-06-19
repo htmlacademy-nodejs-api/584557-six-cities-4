@@ -16,6 +16,8 @@ import UserRdo from './rdo/user.rdo.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import OfferRdo from '../offer/rdo/offer.rdo.js';
 import { ValidateDtoMiddleware } from '../../core/middleware/validate-dto.middleware.js';
+import { ValidateObjectIdMiddleware } from '../../core/middleware/validate-objectid.middleware.js';
+import { UploadFileMiddleware } from '../../core/middleware/upload-file.middleware.js';
 
 type BodyGetUser = {
   userId: string
@@ -48,6 +50,15 @@ export default class UserController extends Controller {
       path: '/favorites',
       method: HttpMethod.Post,
       handler: this.getFavorites
+    });
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar,
+      middlewares: [
+        new ValidateObjectIdMiddleware('userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'avatar'),
+      ]
     });
   }
 
@@ -104,5 +115,11 @@ export default class UserController extends Controller {
     const { favorites } = await user.populate('favorites');
 
     this.ok(res, fillDTO(OfferRdo, favorites));
+  }
+
+  public async uploadAvatar(req: Request, res: Response) {
+    this.created(res, {
+      filePath: req.file?.path
+    });
   }
 }

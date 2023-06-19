@@ -160,6 +160,30 @@ paths:
         "409":
           $ref: '#/components/responses/conflict'
 
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузка аватара юзера
+      description: Сервис предоставляет ресурс для добавления аватара
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+
+      requestBody:
+        description: Информация о аватаре
+        content:
+          multipart/form-data:
+            encoding:
+              avatarImage:
+                contentType: image/*
+      responses:
+        "200":
+          description: Аватар создан.
+
   /offers:
     get:
       tags:

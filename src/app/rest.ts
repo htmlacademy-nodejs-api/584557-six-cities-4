@@ -1,4 +1,5 @@
-import { ExceptionFilterInterface } from './../core/exception-filters/exception-filter.interface';
+import express, { Express } from 'express';
+import { ExceptionFilterInterface } from './../core/exception-filters/exception-filter.interface.js';
 import { getMongoURI } from './../core/helpers/db.js';
 import { LoggerInterface } from '../core/logger/logger.interface.js';
 import { ConfigInterface } from '../core/config/config.interface.js';
@@ -6,7 +7,6 @@ import { RestSchema } from '../core/config/rest.schema.js';
 import { inject, injectable } from 'inversify';
 import { AppComponent } from '../types/app-component.enum.js';
 import { DatabaseClientInterface } from '../core/database-client/database-client.interface.js';
-import express, { Express } from 'express';
 import { ControllerInterface } from '../core/controller/controller.interface.js';
 
 @injectable()
@@ -45,6 +45,10 @@ export default class RestApplication {
     this.logger.info('Global middleware initialization…');
 
     this.expressApp.use(express.json());
+    this.expressApp.use(
+      '/upload',
+      express.static(this.config.get('UPLOAD_DIRECTORY'))
+    );
 
     this.logger.info('Global middleware initialization completed');
   }
