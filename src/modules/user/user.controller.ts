@@ -11,13 +11,15 @@ import { LoggerInterface } from '../../core/logger/logger.interface.js';
 import { Request, Response } from 'express';
 import CreateUserDto from './dto/create-user.dto.js';
 import HttpError from '../../core/errors/http-error.js';
-import { fillDTO } from '../../core/helpers/common.js';
+import { fillDTO, createJWT } from '../../core/helpers/common.js';
 import UserRdo from './rdo/user.rdo.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import OfferRdo from '../offer/rdo/offer.rdo.js';
 import { ValidateDtoMiddleware } from '../../core/middleware/validate-dto.middleware.js';
 import { ValidateObjectIdMiddleware } from '../../core/middleware/validate-objectid.middleware.js';
 import { UploadFileMiddleware } from '../../core/middleware/upload-file.middleware.js';
+import { JWT_ALGORITHM } from './user.constant.js';
+import LoggedUserRdo from './rdo/logged-user.rdo.js';
 
 type BodyGetUser = {
   userId: string
@@ -47,8 +49,13 @@ export default class UserController extends Controller {
       middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
     });
     this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.checkAuthenticate,
+    });
+    this.addRoute({
       path: '/favorites',
-      method: HttpMethod.Post,
+      method: HttpMethod.Get,
       handler: this.getFavorites
     });
     this.addRoute({
@@ -85,26 +92,56 @@ export default class UserController extends Controller {
 
   public async login(
     { body }: Request<UnknownRecord, UnknownRecord, LoginUserDto>,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.mail);
+    const user = await this
+      .userService
+      .verifyUser(body, this.configService.get('SALT'));
 
-    if (!existsUser) {
+    if (!user) {
       throw new HttpError(
-        StatusCodes.NOT_FOUND,
-        `User with email ${body.mail} not found.`,
-        'UserController | login',
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
       );
     }
+
+    const token = await createJWT(
+      JWT_ALGORITHM,
+      this.configService.get('JWT_SECRET'),
+      {
+        mail: user.mail,
+        id: user.id
+      }
+    );
+
+    this.ok(res, fillDTO(LoggedUserRdo, {
+      mail: user.mail,
+      token
+    }));
+  }
+
+  public async checkAuthenticate({ user: { mail } }: Request, res: Response) {
+    const foundedUser = await this.userService.findByEmail(mail);
+
+    if (!foundedUser) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
   }
 
   public async getFavorites(
-    { body }: Request<UnknownRecord, UnknownRecord, BodyGetUser>,
+    { user }: Request<UnknownRecord, UnknownRecord, BodyGetUser>,
     res: Response
   ): Promise<void> {
-    const user = await this.userService.findById(body.userId);
+    const userData = await this.userService.findById(user.id);
 
-    if (!user) {
+    if (!userData) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
         'User not found.',
@@ -112,7 +149,7 @@ export default class UserController extends Controller {
       );
     }
 
-    const { favorites } = await user.populate('favorites');
+    const { favorites } = await userData.populate('favorites');
 
     this.ok(res, fillDTO(OfferRdo, favorites));
   }

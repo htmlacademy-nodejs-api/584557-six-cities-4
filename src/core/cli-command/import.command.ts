@@ -11,8 +11,8 @@ import { UserModel } from '../../modules/user/user.entity.js';
 import OfferService from '../../modules/offer/offer.service.js';
 import { OfferModel } from '../../modules/offer/offer.entity.js';
 import MongoClientService from '../database-client/mongo-client.setvice.js';
-import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from '../../const.js';
 import { Offer } from '../../types/offer.type.js';
+import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from '../../modules/user/user.constant.js';
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';

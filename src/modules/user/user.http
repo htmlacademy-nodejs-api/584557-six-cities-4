@@ -6,7 +6,6 @@ Content-Type: application/json
 
 {
   "mail": "torans@overlook.net",
-  "avatar": "torrance.png",
   "name": "Jack Torrance",
   "password": "shining",
   "type": "pro"
@@ -21,19 +20,16 @@ Content-Type: application/json
 
 {
   "mail": "torans@overlook.net",
-  "password": "123456"
+  "password": "shining"
 }
 
 ###
 
 ## Получить избранные предложения
 
-POST http://localhost:3000/users/favorites HTTP/1.1
+GET http://localhost:3000/users/favorites HTTP/1.1
 Content-Type: application/json
-
-{
-  "userId": "647f00dc2e8f0f99aa764bdd"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoidG9yYW5zQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4MDE0Y2E4ZmI0Nzk0YWYxYmY0MjdiIiwiaWF0IjoxNjg3ODc5NDU4LCJleHAiOjE2ODgwNTIyNTh9.gxQm3Jz7qx5BZ5V71Vi1dC-URBKiL_LJip04S-lsrr8
 
 ###
 
@@ -48,5 +44,11 @@ Content-Type: image/png
 
 < /Users/igorzorin/Desktop/ma-skill.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+## Проверить токен пользователя
+GET http://localhost:3000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoidG9yYW5zQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4MDE0Y2E4ZmI0Nzk0YWYxYmY0MjdiIiwiaWF0IjoxNjg3ODc5NDU4LCJleHAiOjE2ODgwNTIyNTh9.gxQm3Jz7qx5BZ5V71Vi1dC-URBKiL_LJip04S-lsrr8
 
 ###
