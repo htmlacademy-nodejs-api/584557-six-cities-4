@@ -28,8 +28,7 @@ Content-Type: application/json
 ## Получить избранные предложения
 
 GET http://localhost:3000/users/favorites HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoidG9yYW5zQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4MDE0Y2E4ZmI0Nzk0YWYxYmY0MjdiIiwiaWF0IjoxNjg3ODc5NDU4LCJleHAiOjE2ODgwNTIyNTh9.gxQm3Jz7qx5BZ5V71Vi1dC-URBKiL_LJip04S-lsrr8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoidG9yYW5zQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4MDE0Y2E4ZmI0Nzk0YWYxYmY0MjdiIiwiaWF0IjoxNjg3OTU4OTE5LCJleHAiOjE2ODgxMzE3MTl9.OZ42IMmlrKufYcqqbSd8ThALlDjQ7cYdBaF-7r26ba0
 
 ###
 
@@ -49,6 +48,6 @@ Content-Type: image/png
 
 ## Проверить токен пользователя
 GET http://localhost:3000/users/login HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoidG9yYW5zQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4MDE0Y2E4ZmI0Nzk0YWYxYmY0MjdiIiwiaWF0IjoxNjg3ODc5NDU4LCJleHAiOjE2ODgwNTIyNTh9.gxQm3Jz7qx5BZ5V71Vi1dC-URBKiL_LJip04S-lsrr8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoidG9yYW5zQG92ZXJsb29rLm5ldCIsImlkIjoiNjQ4MDE0Y2E4ZmI0Nzk0YWYxYmY0MjdiIiwiaWF0IjoxNjg3OTU4NDk4LCJleHAiOjE2ODgxMzEyOTh9.ipcW9Zfx5-SfhNMoYxzWzuCM0stxZJ2wBtB2TU1qf5c
 
 ###

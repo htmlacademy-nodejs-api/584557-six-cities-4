@@ -15,13 +15,13 @@ export class AuthenticateMiddleware implements MiddlewareInterface {
     }
 
     const [, token] = authorizationHeader;
-    console.log(token);
 
     try {
       const { payload } = await jwtVerify(
         token,
         createSecretKey(this.jwtSecret, 'utf-8')
       );
+
       req.user = { mail: payload.mail as string, id: payload.id as string };
 
       return next();
