@@ -21,10 +21,6 @@ import { UploadFileMiddleware } from '../../core/middleware/upload-file.middlewa
 import { JWT_ALGORITHM } from './user.constant.js';
 import LoggedUserRdo from './rdo/logged-user.rdo.js';
 
-type BodyGetUser = {
-  userId: string
-}
-
 @injectable()
 export default class UserController extends Controller {
   constructor(
@@ -136,10 +132,10 @@ export default class UserController extends Controller {
   }
 
   public async getFavorites(
-    { user }: Request<UnknownRecord, UnknownRecord, BodyGetUser>,
+    { user: { id } }: Request,
     res: Response
   ): Promise<void> {
-    const userData = await this.userService.findById(user.id);
+    const userData = await this.userService.findById(id);
 
     if (!userData) {
       throw new HttpError(

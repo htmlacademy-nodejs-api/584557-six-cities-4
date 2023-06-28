@@ -51,6 +51,9 @@ export default class RestApplication {
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
 
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+
     this.logger.info('Global middleware initialization completed');
   }
 
@@ -60,9 +63,6 @@ export default class RestApplication {
     this.expressApp.use('/offers', this.offerController.router);
     this.expressApp.use('/users', this.userController.router);
     this.expressApp.use('/comments', this.commentController.router);
-
-    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
-    this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
 
     this.logger.info('Controller initialization complete');
   }
