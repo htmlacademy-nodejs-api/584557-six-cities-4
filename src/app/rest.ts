@@ -8,6 +8,7 @@ import { inject, injectable } from 'inversify';
 import { AppComponent } from '../types/app-component.enum.js';
 import { DatabaseClientInterface } from '../core/database-client/database-client.interface.js';
 import { ControllerInterface } from '../core/controller/controller.interface.js';
+import { AuthenticateMiddleware } from '../core/middleware/authenticate.middleware.js';
 
 @injectable()
 export default class RestApplication {
@@ -59,6 +60,9 @@ export default class RestApplication {
     this.expressApp.use('/offers', this.offerController.router);
     this.expressApp.use('/users', this.userController.router);
     this.expressApp.use('/comments', this.commentController.router);
+
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
 
     this.logger.info('Controller initialization complete');
   }

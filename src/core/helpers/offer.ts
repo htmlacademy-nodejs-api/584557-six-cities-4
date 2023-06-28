@@ -42,8 +42,8 @@ export function createOffer(offerData: string): Offer {
   return {
     title,
     description,
-    postDate: new Date(createdDate),
-    city: cityData,
+    postDate: createdDate,
+    cityName: cityData.name,
     preview,
     photos: photos.split(';'),
     premium: Boolean(premium),

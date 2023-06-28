@@ -7,8 +7,7 @@ Content-Type: application/json
 {
   "text": "12312312?",
   "rating": 3,
-  "offerId": "647f01798b40347a35ceee2a",
-  "userId": "647f00dc2e8f0f99aa764bdd"
+  "offerId": "647f01798b40347a35ceee2a"
 }
 
 ###
